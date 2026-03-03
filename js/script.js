@@ -9,14 +9,14 @@
 
     overlay.classList.add('opening');
 
-    // After doors finish swinging, fade out and remove
+    // Start fading while zoom is still playing — feels like stepping through
     setTimeout(function () {
       overlay.classList.add('fading');
       setTimeout(function () {
         overlay.remove();
         document.body.classList.remove('door-active');
-      }, 580);
-    }, 1050);
+      }, 1100);
+    }, 1500);
   }
 
   function onKey(e) {

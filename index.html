@@ -12,68 +12,24 @@
 <body class="door-active">
 
   <!-- ══════════════════════════════════════
-       DOOR OVERLAY — splash screen
+       DOOR OVERLAY — Moroccan door splash
   ══════════════════════════════════════ -->
   <div id="door-overlay" role="button" aria-label="Entrer dans le site" tabindex="0">
 
-    <div class="door-frame">
+    <!-- Dark tile background — fades out the moment doors start opening -->
+    <div class="door-bg"></div>
 
-      <!-- LEFT DOOR -->
-      <div class="door door-l">
-        <div class="door-inner">
-          <!-- arch panel -->
-          <div class="dp dp-arch">
-            <div class="dp-arch-inset">
-              <svg class="dp-star" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="30,6 33,24 47,14 37,26 51,30 37,34 47,46 33,36 30,54 27,36 13,46 23,34 9,30 23,26 13,14 27,24"
-                  fill="none" stroke="rgba(201,164,78,0.55)" stroke-width="1"/>
-                <circle cx="30" cy="30" r="6" fill="none" stroke="rgba(201,164,78,0.4)" stroke-width="0.8"/>
-              </svg>
-            </div>
-          </div>
-          <!-- mid panel -->
-          <div class="dp dp-mid">
-            <svg class="dp-diamond" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="20,2 38,10 20,18 2,10" fill="none" stroke="rgba(201,164,78,0.45)" stroke-width="0.8"/>
-              <polygon points="20,6 34,10 20,14 6,10" fill="none" stroke="rgba(201,164,78,0.25)" stroke-width="0.6"/>
-            </svg>
-          </div>
-          <!-- lower panel -->
-          <div class="dp dp-low"></div>
-        </div>
-        <!-- knob -->
-        <div class="door-knob dk-r"></div>
+    <div class="door-scene">
+      <!-- Two door halves that rotate open on click -->
+      <div class="door-wrap">
+        <div class="door-half door-panel-left"></div>
+        <div class="door-half door-panel-right"></div>
       </div>
+      <!-- Golden arch frame — RGBA PNG, sits on top of the panels -->
+      <div class="door-arch-frame"></div>
+    </div>
 
-      <!-- RIGHT DOOR -->
-      <div class="door door-r">
-        <div class="door-inner">
-          <div class="dp dp-arch">
-            <div class="dp-arch-inset">
-              <svg class="dp-star" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="30,6 33,24 47,14 37,26 51,30 37,34 47,46 33,36 30,54 27,36 13,46 23,34 9,30 23,26 13,14 27,24"
-                  fill="none" stroke="rgba(201,164,78,0.55)" stroke-width="1"/>
-                <circle cx="30" cy="30" r="6" fill="none" stroke="rgba(201,164,78,0.4)" stroke-width="0.8"/>
-              </svg>
-            </div>
-          </div>
-          <div class="dp dp-mid">
-            <svg class="dp-diamond" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="20,2 38,10 20,18 2,10" fill="none" stroke="rgba(201,164,78,0.45)" stroke-width="0.8"/>
-              <polygon points="20,6 34,10 20,14 6,10" fill="none" stroke="rgba(201,164,78,0.25)" stroke-width="0.6"/>
-            </svg>
-          </div>
-          <div class="dp dp-low"></div>
-        </div>
-        <div class="door-knob dk-l"></div>
-      </div>
-
-    </div><!-- /door-frame -->
-
-    <!-- Gold seam line between doors -->
-    <div class="door-seam"></div>
-
-    <!-- Click / tap prompt -->
+    <!-- Click prompt -->
     <div class="door-cta">
       <div class="door-cta-orn">✦ ✦ ✦</div>
       <p class="door-cta-text">Cliquez pour entrer</p>
