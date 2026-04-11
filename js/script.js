@@ -401,3 +401,52 @@ setInterval(updateCountdown, 1000);
     if (typeof gsap !== 'undefined') initGSAP();
   });
 })();
+
+// ── Easter egg: long-press any logo → golden hearts rain ─────
+(function () {
+  var HOLD_MS = 600;
+  var timer = null;
+  var active = false;
+
+  function startHold() {
+    timer = setTimeout(function () {
+      active = true;
+      rainHearts();
+    }, HOLD_MS);
+  }
+
+  function cancelHold() {
+    clearTimeout(timer);
+    timer = null;
+  }
+
+  function rainHearts() {
+    var count = 40;
+    for (var i = 0; i < count; i++) {
+      (function (i) {
+        setTimeout(function () {
+          var h = document.createElement('div');
+          h.className = 'heart-particle';
+          h.textContent = Math.random() > 0.5 ? '❤' : '♡';
+          h.style.left = (Math.random() * 100) + 'vw';
+          h.style.fontSize = (Math.random() * 18 + 10) + 'px';
+          h.style.opacity = (Math.random() * 0.5 + 0.5).toString();
+          h.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          h.style.animationDelay = '0s';
+          document.body.appendChild(h);
+          setTimeout(function () { h.remove(); }, 4500);
+        }, i * 60);
+      })(i);
+    }
+  }
+
+  document.addEventListener('mousedown', function (e) {
+    if (e.target.closest('.welcome-logo, .arch-top-logo, .footer-logo')) startHold();
+  });
+  document.addEventListener('mouseup',    cancelHold);
+  document.addEventListener('mouseleave', cancelHold);
+  document.addEventListener('touchstart', function (e) {
+    if (e.target.closest('.welcome-logo, .arch-top-logo, .footer-logo')) startHold();
+  }, { passive: true });
+  document.addEventListener('touchend',   cancelHold);
+})();
