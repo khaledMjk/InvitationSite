@@ -1042,7 +1042,7 @@ footer > * { position: relative; z-index: 1; }
   font-size: .85rem;
   font-weight: 500;
   letter-spacing: .2em;
-  color: var(--border);
+  color: var(--text-dark);
   margin: 0 0 8px;
 }
 
