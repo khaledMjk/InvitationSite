@@ -28,7 +28,7 @@ body.door-active { overflow: hidden; }
   background-image: url('../images/moorish-tile.svg');
   background-size: 80px 80px;
   transition: opacity 0.6s ease-in,
-              transform 2s cubic-bezier(0.4, 0, 0.1, 1);
+              transform 2s cubic-bezier(0.4, 0, 0.9, 0.95);
   transform-origin: 50% 50%;
   z-index: 0;
 }
@@ -44,7 +44,7 @@ body.door-active { overflow: hidden; }
   width:  min(calc(88vh * 2 / 3), 96vw);
   flex-shrink: 0;
   z-index: 1;
-  transition: transform 2s cubic-bezier(0.4, 0, 0.1, 1);
+  transition: transform 2s cubic-bezier(0.4, 0, 0.9, 0.95);
   transform-origin: 50% 50%;
 }
 
@@ -67,7 +67,7 @@ body.door-active { overflow: hidden; }
   height: 100%;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  transition: transform 2s cubic-bezier(0.4, 0, 0.15, 1);
+  transition: transform 2s cubic-bezier(0.4, 0, 0.9, 0.95);
   will-change: transform;
 }
 
@@ -227,13 +227,14 @@ body {
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  padding: 40px 20px;
+  padding: 0 20px 40px;
+  margin-top: -40px;
 }
 
 /* ── Logo above the arch card ── */
@@ -422,12 +423,17 @@ body {
 /* ══════════════════════════════════════════════════════
    SHARED SECTION STYLES
 ══════════════════════════════════════════════════════ */
-section { padding: 80px 20px; }
+/* sections have no z-index so they don't create stacking contexts —
+   this lets the stars canvas (z-index:2) sit between section backgrounds
+   and section content (z-index:3) */
+section { padding: 80px 20px; position: relative; }
 
 .section-inner {
   max-width: 880px;
   margin: 0 auto;
   text-align: center;
+  position: relative;
+  z-index: 3;
 }
 
 .section-heading {
@@ -541,7 +547,7 @@ section { padding: 80px 20px; }
 
 .detail-card h3 {
   font-family: var(--font-heading);
-  font-size: .85rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: .3em;
   text-transform: uppercase;
@@ -587,6 +593,8 @@ section { padding: 80px 20px; }
   max-width: 900px;
   margin: 0 auto;
   text-align: center;
+  position: relative;
+  z-index: 3;
 }
 
 .venue-frame {
@@ -684,7 +692,7 @@ section { padding: 80px 20px; }
   pointer-events: none;
 }
 
-#countdown .section-inner { position: relative; z-index: 1; }
+#countdown .section-inner { position: relative; z-index: 3; }
 #countdown .section-heading h2 { color: var(--gold-light); }
 #countdown .section-heading h2::after { background: linear-gradient(to right, transparent, var(--gold-light), transparent); }
 #countdown .orn-small { color: var(--pink-medium); }
@@ -749,6 +757,16 @@ section { padding: 80px 20px; }
   padding-bottom: 18px;
 }
 
+/* ── Full-page stars canvas — scrolls with page, behind content ── */
+#stars-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
 /* ── Hero particles canvas ── */
 #hero-particles {
   position: absolute;
@@ -800,6 +818,7 @@ footer {
   text-align: center;
   padding: 50px 20px;
   position: relative;
+  z-index: 3;
 }
 footer::before {
   content: '';
@@ -830,11 +849,11 @@ footer::before {
 
 .d-day-label {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--text-dark);
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: 24px;
 }
 

@@ -7,6 +7,10 @@
     overlay.removeEventListener('click',   openDoors);
     overlay.removeEventListener('keydown', onKey);
 
+    // Hide CTA text instantly on click
+    var cta = overlay.querySelector('.door-cta');
+    if (cta) { cta.style.transition = 'opacity 0.2s'; cta.style.opacity = '0'; }
+
     overlay.classList.add('opening');
 
     // Start fading while zoom is still playing — feels like stepping through
@@ -62,6 +66,14 @@ window.addEventListener('load', function () {
       ctx.lineTo(x + size, size);
       ctx.stroke();
     }
+
+    // "Grattez" label
+    const fontSize = Math.max(Math.round(r * 0.28), 9);
+    ctx.fillStyle = 'rgba(58,36,24,0.6)';
+    ctx.font = `600 ${fontSize}px Cinzel, serif`;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Grattez', r, r);
 
     // ── Scratch logic ──
     let painting = false;
@@ -137,6 +149,70 @@ function updateCountdown() {
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+// ── Full-page floating stars ─────────────────────────────────
+(function () {
+  const canvas = document.getElementById('stars-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, stars;
+
+  function resize() {
+    w = canvas.width  = window.innerWidth;
+    h = canvas.height = document.body.scrollHeight;
+  }
+
+  function makeStar() {
+    return {
+      x:       Math.random() * w,
+      y:       Math.random() * h,
+      r:       Math.random() * 1.6 + 0.5,
+      speedX:  (Math.random() - 0.5) * 0.22,
+      speedY:  (Math.random() - 0.5) * 0.22,
+      opacity: Math.random() * 0.4 + 0.5,
+      phase:   Math.random() * Math.PI * 2,
+    };
+  }
+
+  function init() {
+    const count = Math.min(Math.floor((w * h) / 2500), 500);
+    stars = Array.from({ length: count }, makeStar);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const t = Date.now() / 1000;
+
+    for (const s of stars) {
+      s.x += s.speedX;
+      s.y += s.speedY;
+
+      if (s.x < -4) s.x = w + 4;
+      if (s.x > w + 4) s.x = -4;
+      if (s.y < -4) s.y = h + 4;
+      if (s.y > h + 4) s.y = -4;
+
+      const twinkle = 0.5 + 0.5 * Math.sin(t * 1.8 + s.phase);
+      ctx.save();
+      ctx.globalAlpha = s.opacity * twinkle;
+      ctx.fillStyle   = '#9b7928';
+      ctx.shadowColor = '#c9a44e';
+      ctx.shadowBlur  = 8;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  init();
+  draw();
+
+  window.addEventListener('resize', function () { resize(); init(); });
+})();
 
 // ── Hero gold sparkle particles ──────────────────────────────
 (function () {
@@ -289,10 +365,10 @@ setInterval(updateCountdown, 1000);
       // Delay to let door animation finish (~2.7s total)
       gsap.to(heroItems, {
         opacity: 1, y: 0,
-        duration: 0.45,
-        stagger: 0.07,
+        duration: 0.3,
+        stagger: 0.04,
         ease: 'power2.out',
-        delay: 2.0,
+        delay: 1.6,
       });
     }
   }
