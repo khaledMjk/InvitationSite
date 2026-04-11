@@ -293,7 +293,7 @@ body {
   font-family: var(--font-script);
   font-size: clamp(1.6rem, 5vw, 2.8rem);
   font-weight: 400;
-  color: var(--gold-dark);
+  color: var(--border);
   max-width: 640px;
   line-height: 1.5;
 }
@@ -486,7 +486,7 @@ body {
   font-size: clamp(1rem, 3vw, 1.4rem);
   font-weight: 700;
   letter-spacing: .25em;
-  color: var(--gold-dark);
+  color: var(--border);
 }
 .family-amp {
   font-family: var(--font-script);
@@ -541,7 +541,7 @@ body {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: .22em;
-  color: var(--gold-dark);
+  color: var(--border);
 }
 
 /* ── Scroll hint ── */
@@ -1028,13 +1028,22 @@ footer > * { position: relative; z-index: 1; }
   color: var(--gold-dark);
   margin: 10px 0;
 }
+.footer-amp { color: var(--border); }
 .footer-date {
   font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: .2em;
   color: var(--text-dark);
-  margin: 8px 0;
+  margin: 8px 0 4px;
+}
+.footer-venue {
+  font-family: var(--font-heading);
+  font-size: .85rem;
+  font-weight: 500;
+  letter-spacing: .2em;
+  color: var(--border);
+  margin: 0 0 8px;
 }
 
 /* ══════════════════════════════════════════════════════
