@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="door-active">
+  <canvas id="stars-canvas"></canvas>
 
   <!-- ══════════════════════════════════════
        DOOR OVERLAY — Moroccan door splash
@@ -20,7 +21,9 @@
     <div class="door-bg"></div>
 
     <div class="door-scene">
-      <!-- Two door halves that rotate open on click -->
+      <!-- Glow light -->
+      <div class="door-light"></div>
+<!-- Two door halves that rotate open on click -->
       <div class="door-wrap">
         <div class="door-half door-panel-left"></div>
         <div class="door-half door-panel-right"></div>
@@ -41,6 +44,28 @@
   <!-- ══════════════════════════════════════
        HERO
   ══════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════
+       WELCOME HEADER
+  ══════════════════════════════════════ -->
+  <section id="welcome">
+    <div class="welcome-bg"></div>
+    <div class="welcome-content">
+      <div class="welcome-logo">
+        <img src="images/Logo V7.png" alt="Khaled &amp; Lynda" />
+      </div>
+      <div class="welcome-divider">
+        <span class="orn-line"></span>
+        <span class="orn-diamond">◆</span>
+        <span class="orn-line"></span>
+      </div>
+      <h2 class="welcome-title">L'amour écrit les plus belles histoires <br>La nôtre commence ici,<br>Et vous en faites partie</h2>
+    </div>
+    <div class="welcome-scroll">
+      <span class="welcome-scroll-text">Découvrir</span>
+      <span class="welcome-scroll-arrow">&#8595;</span>
+    </div>
+  </section>
+
   <section id="hero">
     <div class="hero-bg"></div>
     <canvas id="hero-particles"></canvas>
@@ -146,7 +171,12 @@
           </div>
           <h3>Heure</h3>
           <p>Cérémonie</p>
-          <p class="d-main">16h00</p>
+          <div class="scratch-circles">
+            <div class="sc-wrap">
+              <span class="sc-value">16h00</span>
+              <canvas class="sc-canvas"></canvas>
+            </div>
+          </div>
         </div>
 
 
@@ -187,6 +217,8 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ══════════════════════════════════════
        COUNTDOWN
   ══════════════════════════════════════ -->
@@ -226,6 +258,8 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ══════════════════════════════════════
        FOOTER
   ══════════════════════════════════════ -->
@@ -239,6 +273,7 @@
     <div class="footer-orn">❦</div>
   </footer>
 
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="js/script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>

@@ -1,11 +1,31 @@
+// ── Lenis smooth scroll ──────────────────────────────────────
+window.addEventListener('load', function () {
+  if (typeof Lenis === 'undefined') return;
+  const lenis = new Lenis({
+    duration: 1.4,
+    easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+    smoothWheel: true,
+    smoothTouch: true,
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+});
+
 // ── Moorish door open on click ───────────────────────────────
 (function () {
+  // Force top on load so door always appears at top
+  if (history.scrollRestoration) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
   var overlay = document.getElementById('door-overlay');
   if (!overlay) return;
 
   function openDoors() {
     overlay.removeEventListener('click',   openDoors);
     overlay.removeEventListener('keydown', onKey);
+
+    // Always start from the top
+    window.scrollTo(0, 0);
 
     // Hide CTA text instantly on click
     var cta = overlay.querySelector('.door-cta');
@@ -33,6 +53,8 @@
 
 // ── Scratch-to-reveal circles (day / month / year) ──────────
 window.addEventListener('load', function () {
+  // Wait for fonts before drawing scratch canvas so Cinzel renders correctly
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () {
   document.querySelectorAll('.sc-wrap').forEach(function (wrap) {
     const canvas = wrap.querySelector('.sc-canvas');
     if (!canvas) return;
@@ -57,23 +79,16 @@ window.addEventListener('load', function () {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
 
-    // Hatched lines to hint "scratchable"
-    ctx.strokeStyle = 'rgba(58,36,24,0.12)';
-    ctx.lineWidth = 1;
-    for (let x = -size; x < size * 2; x += 7) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x + size, size);
-      ctx.stroke();
-    }
-
     // "Grattez" label
-    const fontSize = Math.max(Math.round(r * 0.28), 9);
-    ctx.fillStyle = 'rgba(58,36,24,0.6)';
-    ctx.font = `600 ${fontSize}px Cinzel, serif`;
+    const fontSize = Math.max(Math.round(r * 0.38), 11);
+    ctx.fillStyle = 'rgba(58,36,24,0.85)';
+    ctx.font = `700 ${fontSize}px Cinzel, Georgia, serif`;
     ctx.textAlign    = 'center';
     ctx.textBaseline = 'middle';
+    ctx.shadowColor  = 'rgba(255,255,255,0.4)';
+    ctx.shadowBlur   = 2;
     ctx.fillText('Grattez', r, r);
+    ctx.shadowBlur = 0;
 
     // ── Scratch logic ──
     let painting = false;
@@ -116,6 +131,7 @@ window.addEventListener('load', function () {
     canvas.addEventListener('touchmove',  scratch, { passive: false });
     canvas.addEventListener('touchend',   function () { painting = false; });
   });
+  }); // document.fonts.ready
 });
 
 // ── Countdown to Khaled & Lynda's wedding: 23 May 2026 at 18:00
