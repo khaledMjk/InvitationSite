@@ -136,6 +136,19 @@ body.door-active { overflow: hidden; }
   50%      { opacity: 1;  }
 }
 
+/* ── Door logo ── */
+.door-logo {
+  z-index: 301;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.door-logo img {
+  width: min(160px, 38vw);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,.5));
+}
+
 /* ══════════════════════════════════════════════════════
    Variables
 ══════════════════════════════════════════════════════ */
@@ -182,16 +195,21 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: var(--pink-bg);
 }
 
-/* Moorish geometric tile background */
+/* Gradient + tile background */
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('../images/moorish-tile.svg');
-  background-size: 90px 90px;
-  background-repeat: repeat;
+  background:
+    url('../images/moorish-tile.svg'),
+    linear-gradient(160deg,
+      #f9ede8 0%,
+      #fdf0f3 30%,
+      #fef6e4 60%,
+      #fbecd8 100%);
+  background-size: 90px 90px, cover;
+  background-repeat: repeat, no-repeat;
 }
 
 /* Decorative top + bottom gold bands */
@@ -212,9 +230,18 @@ body {
   z-index: 2;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
   padding: 40px 20px;
-  animation: fadeInUp 1.2s ease both;
+}
+
+/* ── Logo above the arch card ── */
+.above-arch-logo img {
+  width: min(160px, 38vw);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 14px rgba(58,36,24,.2));
 }
 
 /* ── Moorish Arch Frame ── */
@@ -405,9 +432,10 @@ section { padding: 80px 20px; }
 
 .section-heading {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 10px;
   margin-bottom: 50px;
 }
 .section-heading h2 {
@@ -417,8 +445,19 @@ section { padding: 80px 20px; }
   text-transform: uppercase;
   color: var(--text-dark);
   font-weight: 700;
-  background: var(--white);
-  padding: 6px 20px;
+  position: relative;
+  padding: 0 0 10px;
+}
+/* Gold underline that grows from center */
+.section-heading h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 1.5px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
 }
 .orn-small { color: var(--gold); font-size: .55rem; }
 
@@ -426,10 +465,14 @@ section { padding: 80px 20px; }
    DETAILS
 ══════════════════════════════════════════════════════ */
 #details {
-  background-color: var(--white);
-  background-image: url('../images/moorish-tile.svg');
-  background-size: 90px 90px;
-  background-repeat: repeat;
+  background:
+    url('../images/moorish-tile.svg'),
+    linear-gradient(160deg,
+      #fef6e4 0%,
+      #fdf0f3 50%,
+      #f9ede8 100%);
+  background-size: 90px 90px, cover;
+  background-repeat: repeat, no-repeat;
   position: relative;
 }
 #details::before,
@@ -445,62 +488,81 @@ section { padding: 80px 20px; }
 
 .details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 28px;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
 
 .detail-card {
-  padding: 38px 28px;
-  border: 1px solid var(--gold-light);
-  background: var(--white);
+  padding: 48px 36px;
+  background: rgba(255, 252, 248, 0.92);
+  border: none;
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(to right, transparent, var(--gold), transparent) 1;
+  box-shadow: 0 8px 48px rgba(58,36,24,.08), 0 2px 12px rgba(201,164,78,.08);
   position: relative;
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-/* inner decorative border */
-.detail-card::before {
-  content: '';
-  position: absolute;
-  inset: 7px;
-  border: 1px solid rgba(201,164,78,.18);
-  pointer-events: none;
+  text-align: center;
+  transition: transform .35s ease, box-shadow .35s ease;
 }
 .detail-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 44px rgba(201,164,78,.14);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(58,36,24,.12), 0 4px 20px rgba(201,164,78,.14);
 }
+
+/* Corner ornaments instead of inner border */
+.detail-card::before,
+.detail-card::after {
+  content: '◆';
+  position: absolute;
+  font-size: .35rem;
+  color: rgba(201,164,78,.4);
+}
+.detail-card::before { top: 14px; left: 18px; }
+.detail-card::after  { top: 14px; right: 18px; }
+
 .detail-card--featured {
-  background: linear-gradient(150deg, #fffaf7, #fdf0f3);
-  border-color: var(--gold);
+  background: linear-gradient(160deg, rgba(255,250,247,.97), rgba(253,240,243,.97));
+  border-image: linear-gradient(to right, transparent, var(--gold-dark), transparent) 1;
+}
+
+/* Date card — full width, horizontal layout */
+.detail-card--date {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .d-icon {
-  width: 46px; height: 46px;
-  margin: 0 auto 16px;
+  width: 56px; height: 56px;
+  margin: 0 auto 20px;
+  opacity: .85;
 }
 .d-icon svg { width: 100%; height: 100%; }
 
 .detail-card h3 {
   font-family: var(--font-heading);
-  font-size: .75rem;
+  font-size: .85rem;
   font-weight: 700;
-  letter-spacing: .2em;
+  letter-spacing: .3em;
   text-transform: uppercase;
-  color: var(--text-mid);
-  margin-bottom: 8px;
+  color: var(--gold);
+  margin-bottom: 12px;
 }
 .detail-card p {
   font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--text-dark);
-  font-weight: 400;
+  font-size: 1.05rem;
+  color: var(--text-mid);
+  font-style: italic;
   line-height: 1.6;
 }
 .d-main {
   font-family: var(--font-heading) !important;
-  font-size: 1.05rem !important;
+  font-size: 2rem !important;
   color: var(--gold-dark) !important;
-  font-weight: 600 !important;
-  margin-top: 4px;
+  font-weight: 700 !important;
+  letter-spacing: .08em !important;
+  margin-top: 8px !important;
+  line-height: 1.1 !important;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -624,6 +686,7 @@ section { padding: 80px 20px; }
 
 #countdown .section-inner { position: relative; z-index: 1; }
 #countdown .section-heading h2 { color: var(--gold-light); }
+#countdown .section-heading h2::after { background: linear-gradient(to right, transparent, var(--gold-light), transparent); }
 #countdown .orn-small { color: var(--pink-medium); }
 
 .countdown-sub {
@@ -686,6 +749,46 @@ section { padding: 80px 20px; }
   padding-bottom: 18px;
 }
 
+/* ── Hero particles canvas ── */
+#hero-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Hero logo — centered inside the arch dome ── */
+.arch-top-logo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* pull well inside the curved frame on all sides */
+  padding: 18% 30% 4%;
+}
+.arch-top-logo img {
+  width: 100%;
+  max-width: min(105px, 22vw);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(58,36,24,.15));
+}
+
+/* ── Footer logo ── */
+.footer-logo {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 4px;
+}
+.footer-logo img {
+  width: min(150px, 38vw);
+  height: auto;
+  display: block;
+}
+
 /* ══════════════════════════════════════════════════════
    FOOTER
 ══════════════════════════════════════════════════════ */
@@ -725,28 +828,27 @@ footer::before {
    SCRATCH CIRCLES
 ══════════════════════════════════════════════════════ */
 
-/* Date card spans all columns */
-.detail-card--date {
-  grid-column: 1 / -1;
-}
-
 .d-day-label {
-  font-size: .85rem;
-  color: var(--text-mid);
-  font-weight: 300;
-  margin-bottom: 18px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  font-weight: 500;
+  margin-bottom: 24px;
 }
 
 .scratch-circles {
   display: flex;
-  gap: 24px;
-  width: 100%;
-  margin-top: 4px;
+  gap: 20px;
+  width: min(360px, 80%);
+  margin-top: 8px;
 }
 
 .sc-wrap {
   position: relative;
-  flex: 1;
+  flex: 1 1 0;        /* ignore content size — forces equal widths */
+  min-width: 0;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   border: 2px solid var(--gold-light);
@@ -758,7 +860,7 @@ footer::before {
 
 .sc-value {
   font-family: var(--font-heading);
-  font-size: clamp(1.4rem, 5vw, 3rem);
+  font-size: clamp(1.1rem, 3.5vw, 2rem);
   color: var(--gold-dark);
   font-weight: 600;
   user-select: none;
