@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    overflow: hidden;
+    background: #0a0806;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .card {
+    position: relative;
+    width: 1080px;
+    height: 1920px;
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(201,164,78,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 80%, rgba(201,164,78,0.08) 0%, transparent 50%),
+      linear-gradient(180deg, #0f0d0a 0%, #1a1611 30%, #12100c 60%, #0f0d0a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #e8dcc8;
+  }
+
+  /* ── Outer ornamental border ── */
+  .border-outer {
+    position: absolute;
+    inset: 24px;
+    border: 1px solid rgba(201,164,78,0.25);
+    pointer-events: none;
+  }
+  .border-inner {
+    position: absolute;
+    inset: 36px;
+    border: 1px solid rgba(201,164,78,0.15);
+    pointer-events: none;
+  }
+
+  /* ── Corner ornaments ── */
+  .corner {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    pointer-events: none;
+  }
+  .corner svg { width:100%; height:100%; }
+  .corner--tl { top:28px; left:28px; }
+  .corner--tr { top:28px; right:28px; transform: scaleX(-1); }
+  .corner--bl { bottom:28px; left:28px; transform: scaleY(-1); }
+  .corner--br { bottom:28px; right:28px; transform: scale(-1,-1); }
+
+  /* ── Moroccan geometric pattern band ── */
+  .pattern-band {
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    opacity: 0.12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .pattern-band--top { top: 60px; }
+  .pattern-band--bottom { bottom: 60px; }
+  .pattern-band svg { height: 60px; width: auto; }
+
+  /* ── Sparkle dots ── */
+  .sparkle {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: #c9a44e;
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+  .sparkle:nth-child(1) { top:15%; left:12%; opacity:0.2; width:3px; height:3px; }
+  .sparkle:nth-child(2) { top:25%; right:15%; opacity:0.35; }
+  .sparkle:nth-child(3) { top:45%; left:8%; opacity:0.15; width:2px; height:2px; }
+  .sparkle:nth-child(4) { top:60%; right:10%; opacity:0.25; }
+  .sparkle:nth-child(5) { top:75%; left:18%; opacity:0.2; width:3px; height:3px; }
+  .sparkle:nth-child(6) { top:85%; right:20%; opacity:0.15; }
+  .sparkle:nth-child(7) { top:10%; left:45%; opacity:0.18; width:2px; height:2px; }
+  .sparkle:nth-child(8) { top:35%; right:30%; opacity:0.12; width:3px; height:3px; }
+
+  /* ── Content ── */
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 80px;
+    gap: 0;
+  }
+
+  /* Bismillah */
+  .bismillah {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: rgba(201,164,78,0.6);
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+    font-style: italic;
+  }
+
+  /* Top ornament star */
+  .top-orn {
+    color: #c9a44e;
+    font-size: 18px;
+    letter-spacing: 16px;
+    margin-bottom: 30px;
+    opacity: 0.7;
+  }
+
+  /* Monogram / Logo area */
+  .monogram {
+    width: 200px;
+    height: 200px;
+    border: 2px solid rgba(201,164,78,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    position: relative;
+    background: radial-gradient(circle, rgba(201,164,78,0.05) 0%, transparent 70%);
+  }
+  .monogram::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border: 1px solid rgba(201,164,78,0.15);
+    border-radius: 50%;
+  }
+  .monogram-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 80px;
+    color: #c9a44e;
+    line-height: 1;
+  }
+
+  /* Families */
+  .families {
+    margin-bottom: 10px;
+  }
+  .families-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: rgba(201,164,78,0.5);
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    margin-bottom: 10px;
+  }
+  .families-names {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    color: #c9a44e;
+    letter-spacing: 6px;
+    font-weight: 500;
+  }
+  .families-amp {
+    display: inline-block;
+    margin: 8px 0;
+    font-family: 'Great Vibes', cursive;
+    font-size: 32px;
+    color: rgba(201,164,78,0.6);
+    letter-spacing: 0;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .divider-line {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,164,78,0.5), transparent);
+  }
+  .divider-diamond {
+    color: #c9a44e;
+    font-size: 10px;
+    opacity: 0.7;
+  }
+
+  /* Invite text */
+  .invite-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: #bfad8f;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  /* Couple names */
+  .couple {
+    font-family: 'Great Vibes', cursive;
+    font-size: 96px;
+    color: #c9a44e;
+    line-height: 1.2;
+    margin: 10px 0;
+    text-shadow: 0 0 40px rgba(201,164,78,0.15);
+  }
+  .couple .amp {
+    font-size: 68px;
+    display: inline-block;
+    margin: 0 12px;
+    opacity: 0.7;
+    vertical-align: middle;
+  }
+
+  /* Date & Venue */
+  .date {
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    color: #e8dcc8;
+    letter-spacing: 5px;
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  .time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: rgba(201,164,78,0.7);
+    letter-spacing: 4px;
+    margin-top: 10px;
+  }
+
+  .venue {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    color: #c9a44e;
+    letter-spacing: 8px;
+    font-weight: 600;
+    margin-top: 24px;
+  }
+  .venue-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: rgba(191,173,143,0.6);
+    letter-spacing: 3px;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* Link section */
+  .link-section {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .link-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: rgba(191,173,143,0.5);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .link-box {
+    border: 1px solid rgba(201,164,78,0.3);
+    padding: 14px 40px;
+    border-radius: 4px;
+    background: rgba(201,164,78,0.04);
+  }
+  .link-url {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    color: #c9a44e;
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+
+  /* Bottom ornament */
+  .bottom-orn {
+    margin-top: 40px;
+    color: #c9a44e;
+    font-size: 28px;
+    opacity: 0.4;
+  }
+
+  /* Arabesque SVG motifs on sides */
+  .side-motif {
+    position: absolute;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .side-motif--left {
+    left: 44px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .side-motif--right {
+    right: 44px;
+    top: 50%;
+    transform: translateY(-50%) scaleX(-1);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <!-- Borders -->
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+
+  <!-- Corner ornaments -->
+  <div class="corner corner--tl">
+    <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 88 L2 20 Q2 2 20 2 L88 2" stroke="#c9a44e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M10 80 L10 24 Q10 10 24 10 L80 10" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <circle cx="6" cy="6" r="2" fill="#c9a44e" opacity="0.5"/>
+      <path d="M2 40 Q15 30 2 20" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.25"/>
+      <path d="M40 2 Q30 15 20 2" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.25"/>
+    </svg>
+  </div>
+  <div class="corner corner--tr">
+    <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 88 L2 20 Q2 2 20 2 L88 2" stroke="#c9a44e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M10 80 L10 24 Q10 10 24 10 L80 10" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <circle cx="6" cy="6" r="2" fill="#c9a44e" opacity="0.5"/>
+      <path d="M2 40 Q15 30 2 20" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.25"/>
+      <path d="M40 2 Q30 15 20 2" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.25"/>
+    </svg>
+  </div>
+  <div class="corner corner--bl">
+    <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 88 L2 20 Q2 2 20 2 L88 2" stroke="#c9a44e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M10 80 L10 24 Q10 10 24 10 L80 10" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <circle cx="6" cy="6" r="2" fill="#c9a44e" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="corner corner--br">
+    <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 88 L2 20 Q2 2 20 2 L88 2" stroke="#c9a44e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M10 80 L10 24 Q10 10 24 10 L80 10" stroke="#c9a44e" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <circle cx="6" cy="6" r="2" fill="#c9a44e" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- Sparkles -->
+  <div class="sparkle"></div><div class="sparkle"></div><div class="sparkle"></div>
+  <div class="sparkle"></div><div class="sparkle"></div><div class="sparkle"></div>
+  <div class="sparkle"></div><div class="sparkle"></div>
+
+  <!-- Side arabesque motifs -->
+  <div class="side-motif side-motif--left">
+    <svg width="40" height="600" viewBox="0 0 40 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 0 Q35 50 20 100 Q5 150 20 200 Q35 250 20 300 Q5 350 20 400 Q35 450 20 500 Q5 550 20 600" stroke="#c9a44e" stroke-width="1" fill="none"/>
+      <circle cx="20" cy="0" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="100" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="200" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="300" r="5" fill="#c9a44e"/>
+      <circle cx="20" cy="400" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="500" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="600" r="3" fill="#c9a44e"/>
+      <!-- Small leaf shapes -->
+      <path d="M20 50 Q30 45 25 35 Q20 45 20 50Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 50 Q10 45 15 35 Q20 45 20 50Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 150 Q30 145 25 135 Q20 145 20 150Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 150 Q10 145 15 135 Q20 145 20 150Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 250 Q30 245 25 235 Q20 245 20 250Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 250 Q10 245 15 235 Q20 245 20 250Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 350 Q30 345 25 335 Q20 345 20 350Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 350 Q10 345 15 335 Q20 345 20 350Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 450 Q30 445 25 435 Q20 445 20 450Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 450 Q10 445 15 435 Q20 445 20 450Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 550 Q30 545 25 535 Q20 545 20 550Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 550 Q10 545 15 535 Q20 545 20 550Z" fill="#c9a44e" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="side-motif side-motif--right">
+    <svg width="40" height="600" viewBox="0 0 40 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 0 Q35 50 20 100 Q5 150 20 200 Q35 250 20 300 Q5 350 20 400 Q35 450 20 500 Q5 550 20 600" stroke="#c9a44e" stroke-width="1" fill="none"/>
+      <circle cx="20" cy="0" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="100" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="200" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="300" r="5" fill="#c9a44e"/>
+      <circle cx="20" cy="400" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="500" r="3" fill="#c9a44e"/>
+      <circle cx="20" cy="600" r="3" fill="#c9a44e"/>
+      <path d="M20 50 Q30 45 25 35 Q20 45 20 50Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 50 Q10 45 15 35 Q20 45 20 50Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 150 Q30 145 25 135 Q20 145 20 150Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 150 Q10 145 15 135 Q20 145 20 150Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 250 Q30 245 25 235 Q20 245 20 250Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 250 Q10 245 15 235 Q20 245 20 250Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 350 Q30 345 25 335 Q20 345 20 350Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 350 Q10 345 15 335 Q20 345 20 350Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 450 Q30 445 25 435 Q20 445 20 450Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 450 Q10 445 15 435 Q20 445 20 450Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 550 Q30 545 25 535 Q20 545 20 550Z" fill="#c9a44e" opacity="0.5"/>
+      <path d="M20 550 Q10 545 15 535 Q20 545 20 550Z" fill="#c9a44e" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- Moroccan pattern bands -->
+  <div class="pattern-band pattern-band--top">
+    <svg width="1000" height="60" viewBox="0 0 1000 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Repeating 8-pointed star pattern -->
+      <g stroke="#c9a44e" stroke-width="0.8" fill="none">
+        <!-- Repeating geometric pattern -->
+        <g id="star-unit">
+          <polygon points="30,5 35,20 50,20 38,30 42,45 30,36 18,45 22,30 10,20 25,20"/>
+        </g>
+        <use href="#star-unit" x="0" y="0"/>
+        <use href="#star-unit" x="60" y="0"/>
+        <use href="#star-unit" x="120" y="0"/>
+        <use href="#star-unit" x="180" y="0"/>
+        <use href="#star-unit" x="240" y="0"/>
+        <use href="#star-unit" x="300" y="0"/>
+        <use href="#star-unit" x="360" y="0"/>
+        <use href="#star-unit" x="420" y="0"/>
+        <use href="#star-unit" x="480" y="0"/>
+        <use href="#star-unit" x="540" y="0"/>
+        <use href="#star-unit" x="600" y="0"/>
+        <use href="#star-unit" x="660" y="0"/>
+        <use href="#star-unit" x="720" y="0"/>
+        <use href="#star-unit" x="780" y="0"/>
+        <use href="#star-unit" x="840" y="0"/>
+        <use href="#star-unit" x="900" y="0"/>
+        <use href="#star-unit" x="960" y="0"/>
+        <!-- Connecting lines between stars -->
+        <line x1="0" y1="30" x2="1000" y2="30" stroke-width="0.3"/>
+      </g>
+    </svg>
+  </div>
+  <div class="pattern-band pattern-band--bottom">
+    <svg width="1000" height="60" viewBox="0 0 1000 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#c9a44e" stroke-width="0.8" fill="none">
+        <use href="#star-unit" x="0" y="0"/>
+        <use href="#star-unit" x="60" y="0"/>
+        <use href="#star-unit" x="120" y="0"/>
+        <use href="#star-unit" x="180" y="0"/>
+        <use href="#star-unit" x="240" y="0"/>
+        <use href="#star-unit" x="300" y="0"/>
+        <use href="#star-unit" x="360" y="0"/>
+        <use href="#star-unit" x="420" y="0"/>
+        <use href="#star-unit" x="480" y="0"/>
+        <use href="#star-unit" x="540" y="0"/>
+        <use href="#star-unit" x="600" y="0"/>
+        <use href="#star-unit" x="660" y="0"/>
+        <use href="#star-unit" x="720" y="0"/>
+        <use href="#star-unit" x="780" y="0"/>
+        <use href="#star-unit" x="840" y="0"/>
+        <use href="#star-unit" x="900" y="0"/>
+        <use href="#star-unit" x="960" y="0"/>
+        <line x1="0" y1="30" x2="1000" y2="30" stroke-width="0.3"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Main content -->
+  <div class="content">
+
+    <div class="bismillah">Bismillah Ar-Rahman Ar-Rahim</div>
+
+    <div class="top-orn">&#10022; &#10022; &#10022;</div>
+
+    <div class="monogram">
+      <span class="monogram-text">K&L</span>
+    </div>
+
+    <div class="families">
+      <div class="families-label">Les Familles</div>
+      <div class="families-names">MEDJKOUH</div>
+      <div class="families-amp">&</div>
+      <div class="families-names">HARMALI</div>
+    </div>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-diamond">&#9670;</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <p class="invite-text">ont le plaisir de vous inviter<br>au mariage de leurs enfants</p>
+
+    <div class="couple">Khaled <span class="amp">&</span> Lynda</div>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-diamond">&#9670;</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <p class="date">SAMEDI 23 MAI 2026</p>
+    <p class="time">Ceremonie a 16h00</p>
+
+    <div class="divider" style="margin:20px 0;">
+      <span class="divider-line" style="width:60px;"></span>
+      <span class="divider-diamond">&#9670;</span>
+      <span class="divider-line" style="width:60px;"></span>
+    </div>
+
+    <p class="venue">PALAIS LAYEL</p>
+    <p class="venue-sub">Salle des Fetes</p>
+
+    <div class="link-section">
+      <span class="link-label">Decouvrir notre invitation</span>
+      <div class="link-box">
+        <a href="https://khaledmjk.github.io/InvitationSite/" class="link-url">khaledmjk.github.io/InvitationSite</a>
+      </div>
+    </div>
+
+    <div class="bottom-orn">&#10087;</div>
+  </div>
+
+</div>
+</body>
+</html>
